@@ -26,17 +26,34 @@ iit.map = (function() {
   // update_tooltip puts the relevant country info in the tooltip
   // gets called on click events
   module.update_tooltip = function(geo) {
+    // prevent further bubbling
+    d3.event.preventDefault();
 
-    var d = module.map.options.data[geo.id],  // lookup datum for country
+    var d = module.map.options.data[geo.id], // lookup datum for country
       position = d3.mouse(module.map.options.element); // position from  mouse
 
     module.tooltip
+      .style('visibility', 'visible')
       .style("top", (position[1] - 10) + "px")
       .style("left", (position[0] + 10) + "px")
       .html(['<h3>' + d.name + '</h3>',
         '<span>GDP: ' + iit.data.format_gdp(d.gdp) + '</span>'
       ].join(''));
 
+  };
+
+  module.clean_tooltip = function() {
+    if (!d3.event.defaultPrevented) {
+      // only if event was stopped from bubbling
+      module.tooltip
+        .style('visibility', 'hidden');
+    }
+  };
+
+  var general_events = function() {
+    d3.select(module.settings.el).on('click', function() {
+          module.clean_tooltip();
+        });
   };
 
   var setup_map = function() {
@@ -49,21 +66,23 @@ iit.map = (function() {
         defaultFill: '#989898'
       },
       // indexes the countries array by the code (e.g. USA) property
-      // this plugs into the datamap geography data, giving it access to 
+      // this plugs into the datamap geography data, giving it access to
       // the loaded gdp data for each country
-      data: _.indexBy(module.data, 'code'), 
+      data: _.indexBy(module.data, 'code'),
       geographyConfig: {
         highlightOnHover: true,
-        popupOnHover: false
+        popupOnHover: false,
+        borderWidth: 0.5,
       },
       done: function(datamap) {
         // sets up emtpy tooltip element
         module.tooltip = d3.select(module.settings.el)
           .append("div")
-          .classed('tooltip', true);
+          .classed('tooltip', true)
+          .style('visibility', 'visible');
 
         // update tooltip on click event for each country
-        datamap.svg.selectAll('.datamaps-subunit').on('click', function (geo) {
+        datamap.svg.selectAll('.datamaps-subunit').on('click', function(geo) {
           module.update_tooltip(geo);
         });
       }
@@ -83,6 +102,7 @@ iit.map = (function() {
     $(document).on('load.countries', function() {
       data_load();
       setup_map();
+      general_events();
     });
 
   };
