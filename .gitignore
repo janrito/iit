@@ -1,5 +1,4 @@
 node_modules
-out
 .npm-debug.log
 .sass-cache
 tmp
