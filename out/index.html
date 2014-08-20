@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>GDP by country</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" type="text/css" href="static/css/main.css" />
+
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>GDP by country</h1>
+    <h2>Gross domestic product 2013 <small>(in US dollars)</small></h2>
+
+    <!-- Map goes here -->
+    <div id="gdp-map">
+    </div>
+
+    <!-- Table goes here -->
+    <div id="gdp-table">
+    </div>
+
+    <!-- moustaches -->
+    <script id="gdp-table-template" type="text/ractive">
+      <table>
+        <thead>
+          <tr>
+            <td></td>
+            <th>Name</th>
+            <th>GDP</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each into_columns(countries, n_cols):i}}
+            <tr class="{{ (i%2==0)? 'alt': '' }}">
+            {{#each this}}
+              <td class="separator"></td>
+              <td>{{name}}</td>
+              <td>{{format_gdp(gdp)}}</td>
+            {{/each}}
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </script>
+
+    <!-- load application -->
+    <script src="static/js/main.min.js" ></script>
+  </div>
+</body>
+</html>
