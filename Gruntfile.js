@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   //Initializing the configuration object
   grunt.initConfig({
 
+    pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
         separator: ';',
@@ -22,6 +23,17 @@ module.exports = function(grunt) {
         dest: './out/static/js/main.js',
       },
     },
+    uglify: {
+      options: {
+        // the banner is inserted at the top of the output
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+          './out/static/js/main.min.js': ['<%= concat.js.dest %>']
+        }
+      }
+    },
     sass: {
       dist: {
         files: [{
@@ -36,7 +48,7 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: ['./src/assets/js/**/*.js', './src/assets/js/*.js'],
-        tasks: ['concat:js'],
+        tasks: ['concat:js', 'uglify'],
       },
       sass: {
         files: ['./src/assets/scss/**/*.scss', './src/assets/scss/*.scss'],
@@ -102,10 +114,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+
 
 
   // Task definition
-  grunt.registerTask('build', ['concat:js', 'sass']);
+  grunt.registerTask('build', ['concat:js', 'sass', 'uglify']);
   grunt.registerTask('default', ['clean', 'copy', 'build']);
   grunt.registerTask('dev', ['connect', 'default', 'watch']);
 
