@@ -9,7 +9,7 @@
     "datamaps": null,
     "underscore": null,
     "normalize-scss": null,
-    "open-sans": null,
+    "open-sans": null
   },
   "main": "./src/assets/js/main.js",
   "ignore": [
