@@ -129,8 +129,13 @@ body {
         color: $background;
         background: $background-darker;
       }
-
-
+      .datamap {
+        .labels {
+          // labels should ignore pointer events
+          // this allows hovers and clicks on the areas underneath
+          pointer-events: none;
+        }
+      }
       // tooltip within visualisation, gets position from mouse event
       .tooltip {
         background: $background;
