@@ -1,0 +1,153 @@
+@import '../vendor/normalize-scss/normalize';
+@import '../vendor/open-sans/scss/open-sans';
+
+// basic colours
+$base_color: #555;
+$darker: #333;
+$lighter: #777;
+$background-darker: #dedede;
+$background: #fefefe;
+
+
+// cross browser border radius
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+// cross browser box shadow
+@mixin box-shadow($top, $left, $blur, $color, $inset:"") {
+  -webkit-box-shadow:$top $left $blur $color #{$inset};
+  -moz-box-shadow:$top $left $blur $color #{$inset};
+  box-shadow:$top $left $blur $color #{$inset};
+}
+
+body {
+  font-family: Open Sans, Helvetica, Arial;
+  font-size: 16px;
+  line-height: 1.2em;
+  color: $base_color;
+
+  h1 {
+    @media only screen and (min-width: 300px) {
+      font-size: 2em;
+    }
+    @media only screen and (min-width: 1200px) {
+      font-size: 4em;
+    }
+
+    font-weight: 100;
+    color: $darker;
+  }
+
+  h2{
+
+    font-weight: normal;
+    line-height: 1.2em;
+    small {
+      color: $lighter;
+    }
+  }
+
+  .container {
+    // basic setup to handle a variety of screen sizes
+    @media only screen and (min-width: 300px) {
+      width: 300px;
+      height: 150px;
+    }
+    @media only screen and (min-width: 900px) {
+      width: 900px;
+      height: 450px;
+    }
+    @media only screen and (min-width: 1200px) {
+      width: 1200px;
+      height: 600px;
+    }
+    margin: 0 auto;
+    min-height: 600px;
+
+
+    // table styles
+    #gdp-table{
+      margin: 2em auto;
+      table {
+        width: 100%;
+        margin: 0 auto;
+        thead {
+          th {
+            font-weight: 600;
+            text-align: left;
+          }
+        }
+
+        tbody {
+          tr {
+            &.alt {
+              // vary the background of each row alternatively
+              background: $background-darker;
+            }
+
+            td {
+              font-size: .8rem;
+              padding: .3em .4em;
+            }
+            td.separator {
+              // separator for multiple columns
+              background: $background;
+              width: 1em;
+            }
+          }
+        }
+      }
+
+    }
+
+    // map styles
+    #gdp-map {
+      margin: 0 auto;
+
+      // crudely handle multiple scren sizes
+      @media only screen and (min-width: 300px) {
+        width: 300px;
+        height: 150px;
+      }
+      @media only screen and (min-width: 900px) {
+        width: 900px;
+        height: 450px;
+      }
+      @media only screen and (min-width: 1200px) {
+        width: 1200px;
+        height: 600px;
+      }
+
+      position: relative;
+      overflow: hidden;
+
+      svg {
+        color: $background;
+        background: $background-darker;
+      }
+
+
+      // tooltip within visualisation, gets position from mouse event
+      .tooltip {
+        background: $background;
+        position: absolute;
+        z-index:10;
+        font-size: 12px;
+        color: $base_color;
+        padding: 1em;
+        @include box-shadow(0, 0px, 5px, $base_color);
+        @include border-radius(2px);
+
+        h3 {
+          line-height: 1.3em;
+          margin: 0;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

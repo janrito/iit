@@ -1,0 +1,21 @@
+{
+  "name": "iit",
+  "version": "0.1.0",
+  "dependencies": {
+    "jquery": null,
+    "d3": null,
+    "topojson": null,
+    "ractive": null,
+    "datamaps": null,
+    "underscore": null,
+    "normalize-scss": null,
+    "open-sans": null,
+  },
+  "main": "./src/assets/js/main.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "src/assets/vendor",
+    "out"
+  ]
+}
